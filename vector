@@ -1,0 +1,39 @@
+typedef vector<int> ivector_t;
+
+ivector_t merge(ivector_t const& left, ivector_t const& right)
+{
+    ivector_t result;
+    unsigned int lit = 0;
+    unsigned int rit = 0;
+
+    while (lit < left.size() && rit < right.size())
+    {
+        if (left[lit] < right[rit])
+            result.push_back(left[lit++]);
+        else
+            result.push_back(right[rit++]);
+    }
+
+    while (lit < left.size())
+        result.push_back(left[lit++]);
+
+    while (rit < right.size())
+        result.push_back(right[rit++]);
+
+    return result;
+}
+
+ivector_t merge_sort(ivector_t& vec)
+{
+    if (vec.size() == 1)
+        return vec;
+
+    ivector_t::iterator middle = vec.begin() + (vec.size() >> 1);
+    ivector_t left(vec.begin(), middle);
+    ivector_t right(middle, vec.end());
+
+    left = merge_sort(left);
+    right = merge_sort(right);
+
+    return merge(left, right);
+}
